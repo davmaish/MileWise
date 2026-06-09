@@ -1,50 +1,49 @@
-# Welcome to your Expo app 👋
+# MileWise
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Overview
 
-## Get started
+MileWise is a mobile application being developed using React Native and Expo to help vehicle owners manage maintenance schedules, mileage records, and vehicle expenses.
 
-1. Install dependencies
+## Problem Statement
 
-   ```bash
-   npm install
-   ```
+Many vehicle owners struggle to keep track of maintenance schedules and expenses, resulting in missed services and unexpected repair costs.
 
-2. Start the app
+## Proposed Solution
 
-   ```bash
-   npx expo start
-   ```
+MileWise provides a centralized platform for recording vehicle expenses, monitoring mileage, tracking service schedules, and maintaining vehicle history records.
 
-In the output, you'll find options to open the app in a
+## Features (Planned)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+* Vehicle Registration
+* Expense Tracking
+* Maintenance Scheduling
+* Service Reminders
+* Maintenance History
+* Dashboard Analytics
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Technologies
 
-## Get a fresh project
+* React Native
+* Expo
+* Expo Router
+* JavaScript
+* AsyncStorage
 
-When you're ready, run:
+## Project Status
 
-```bash
-npm run reset-project
-```
+Current Phase: UI/UX Design and Planning
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Completed:
 
-## Learn more
+* Development Environment Setup
+* Expo Configuration
+* Wireframe Design
 
-To learn more about developing your project with Expo, look at the following resources:
+In Progress:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+* Application Development
 
-## Join the community
+## Author
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+David Maina
+Bachelor of Information Technology
