@@ -14,34 +14,34 @@ MileWise provides a centralized platform for recording vehicle expenses, monitor
 
 ## Features (Planned)
 
-* Vehicle Registration
-* Expense Tracking
-* Maintenance Scheduling
-* Service Reminders
-* Maintenance History
-* Dashboard Analytics
+- Vehicle Registration
+- Expense Tracking
+- Maintenance Scheduling
+- Service Reminders
+- Maintenance History
+- Dashboard Analytics
 
 ## Technologies
 
-* React Native
-* Expo
-* Expo Router
-* JavaScript
-* AsyncStorage
+- React Native
+- Expo
+- Expo Router
+- JavaScript
+- AsyncStorage
 
 ## Project Status
 
-Current Phase: UI/UX Design and Planning
+Current Phase: Networking and APIs
 
 Completed:
 
-* Development Environment Setup
-* Expo Configuration
-* Wireframe Design
+- Development Environment Setup
+- Expo Configuration
+- Wireframe Design
 
 In Progress:
 
-* Application Development
+- Application Development
 
 ## Author
 
