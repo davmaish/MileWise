@@ -1,4 +1,4 @@
-// ─── MileWise Global State Context (SQLite powered) ──────────────────────────
+// ─── MileWise Global State Context — Week 7 Upgrade ──────────────────────────
 import React, {
   createContext,
   ReactNode,
@@ -8,10 +8,14 @@ import React, {
   useState,
 } from "react";
 import {
+  deleteFuelLog as dbDeleteFuelLog,
   deleteRecord as dbDeleteRecord,
+  getAllFuelLogs,
   getAllRecords,
+  getTotalFuelSpent,
   getTotalSpent,
   getVehicle,
+  insertFuelLog,
   insertRecord,
   saveVehicle,
 } from "../database/db";
@@ -35,6 +39,16 @@ export interface MaintenanceRecord {
   notes: string;
 }
 
+export interface FuelLog {
+  id: number;
+  liters: number;
+  cost_per_liter: number;
+  total_cost: number;
+  mileage_at_fillup: number;
+  date: string;
+  station_name: string;
+}
+
 export interface ReminderItem {
   id: string;
   name: string;
@@ -45,14 +59,31 @@ export interface ReminderItem {
 }
 
 interface GlobalStateType {
+  // Vehicle
   userVehicle: Vehicle | null;
   setUserVehicle: (v: Vehicle) => void;
+  // Maintenance
   maintenanceRecords: MaintenanceRecord[];
-  addMaintenanceRecord: (record: Omit<MaintenanceRecord, "id">) => void;
+  addMaintenanceRecord: (r: Omit<MaintenanceRecord, "id">) => void;
   deleteMaintenanceRecord: (id: number) => void;
   refreshRecords: () => void;
+  // Fuel
+  fuelLogs: FuelLog[];
+  addFuelLog: (log: {
+    liters: number;
+    costPerLiter: number;
+    totalCost: number;
+    mileageAtFillup: number;
+    date: string;
+    stationName?: string;
+  }) => void;
+  deleteFuelLog: (id: number) => void;
+  totalFuelSpent: number;
+  // Reminders
   reminders: ReminderItem[];
+  // Derived
   totalSpent: number;
+  totalAllSpent: number;
   nextServiceKm: number;
   isLoading: boolean;
 }
@@ -117,11 +148,12 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
   const [maintenanceRecords, setMaintenanceRecords] = useState<
     MaintenanceRecord[]
   >([]);
+  const [fuelLogs, setFuelLogs] = useState<FuelLog[]>([]);
   const [reminders] = useState<ReminderItem[]>(DEFAULT_REMINDERS);
   const [totalSpent, setTotalSpent] = useState(0);
+  const [totalFuelSpent, setTotalFuelSpent] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  // ── Load data from SQLite on startup ────────────────────────────────────────
   useEffect(() => {
     loadAllData();
   }, []);
@@ -129,23 +161,12 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
   function loadAllData() {
     setIsLoading(true);
     try {
-      // Load vehicle
       const vehicle = getVehicle();
-      if (vehicle) {
-        setUserVehicleState({
-          vehicleName: vehicle.vehicleName,
-          manufacturer: vehicle.manufacturer,
-          model: vehicle.model,
-          year: vehicle.year,
-          registrationNumber: vehicle.registrationNumber,
-          currentMileage: vehicle.currentMileage,
-        });
-      }
-      // Load records
-      const records = getAllRecords();
-      setMaintenanceRecords(records);
-      // Load total
+      if (vehicle) setUserVehicleState(vehicle);
+      setMaintenanceRecords(getAllRecords());
+      setFuelLogs(getAllFuelLogs());
       setTotalSpent(getTotalSpent());
+      setTotalFuelSpent(getTotalFuelSpent());
     } catch (e) {
       console.error("DB load error:", e);
     } finally {
@@ -154,9 +175,10 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
   }
 
   function refreshRecords() {
-    const records = getAllRecords();
-    setMaintenanceRecords(records);
+    setMaintenanceRecords(getAllRecords());
+    setFuelLogs(getAllFuelLogs());
     setTotalSpent(getTotalSpent());
+    setTotalFuelSpent(getTotalFuelSpent());
   }
 
   function setUserVehicle(v: Vehicle) {
@@ -174,13 +196,37 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
     refreshRecords();
   }
 
-  // ── Derived: next service km ─────────────────────────────────────────────
+  function addFuelLog(log: {
+    liters: number;
+    costPerLiter: number;
+    totalCost: number;
+    mileageAtFillup: number;
+    date: string;
+    stationName?: string;
+  }) {
+    insertFuelLog(log);
+    refreshRecords();
+  }
+
+  function deleteFuelLog(id: number) {
+    dbDeleteFuelLog(id);
+    refreshRecords();
+  }
+
+  // Total of maintenance + fuel combined
+  const totalAllSpent = useMemo(
+    () => totalSpent + totalFuelSpent,
+    [totalSpent, totalFuelSpent],
+  );
+
   const nextServiceKm = useMemo(() => {
     if (!userVehicle) return 0;
     const oil = reminders.find((r) => r.id === "r1");
     if (!oil) return 0;
-    const nextAt = oil.lastServiceMileage + oil.intervalKm;
-    return Math.max(0, nextAt - userVehicle.currentMileage);
+    return Math.max(
+      0,
+      oil.lastServiceMileage + oil.intervalKm - userVehicle.currentMileage,
+    );
   }, [userVehicle, reminders]);
 
   return (
@@ -192,8 +238,13 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
         addMaintenanceRecord,
         deleteMaintenanceRecord,
         refreshRecords,
-        reminders,
+        fuelLogs,
+        addFuelLog,
+        deleteFuelLog,
+        totalFuelSpent,
         totalSpent,
+        totalAllSpent,
+        reminders,
         nextServiceKm,
         isLoading,
       }}
@@ -203,14 +254,12 @@ export function GlobalProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// ── Hook ──────────────────────────────────────────────────────────────────────
 export function useGlobal(): GlobalStateType {
   const ctx = useContext(GlobalContext);
   if (!ctx) throw new Error("useGlobal must be used inside GlobalProvider");
   return ctx;
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
 export function formatKES(amount: number): string {
   return `KES ${Number(amount).toLocaleString("en-KE")}`;
 }

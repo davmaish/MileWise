@@ -1,7 +1,4 @@
 // ─── MileWise API Service Layer ───────────────────────────────────────────────
-// Implements REST API concepts for BIT4107 Week 5 — Networking
-// Uses fetch() — React Native's built-in HTTP client (equivalent to Retrofit/Volley)
-// All requests are asynchronous (async/await) to prevent UI freezing
 
 const BASE_URL = "https://jsonplaceholder.typicode.com";
 const MOCK_SYNC_URL = "https://jsonplaceholder.typicode.com/posts";
