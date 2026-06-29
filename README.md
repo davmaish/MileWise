@@ -1,56 +1,174 @@
-# Welcome to your Expo app 👋
+# MileWise
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+> ** Track. Maintain. Drive Smart.**
 
-## Get started
+MileWise is an offline-first vehicle expense and maintenance management application built to help drivers make smarter financial and maintenance decisions. It enables users to track every aspect of vehicle ownership—from fuel expenses and servicing to insurance and repairs—while automatically calculating fuel efficiency metrics and predicting upcoming maintenance requirements.
 
-1. Install dependencies
+Designed with a high-information-density interface and a modern developer-friendly architecture, MileWise combines expense tracking, predictive maintenance, and insightful analytics into a seamless mobile experience that continues to work even without an internet connection.
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+# Mission
 
-   ```bash
-   npx expo start
-   ```
+The mission of MileWise is to eliminate automotive operational friction by transforming manual financial tracking into an intelligent, predictive vehicle care ecosystem. By combining automated calculations, maintenance intelligence, and offline accessibility, MileWise empowers drivers to maximize vehicle lifespan, reduce ownership costs, and make informed decisions wherever they are.
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+# Target Audience
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+MileWise is designed for:
 
-## Get a fresh project
+- Everyday vehicle owners
+- Ride-hailing drivers
+- Commercial transport operators
+- Fleet managers
+- Corporate logistics teams
+- Anyone who wants complete visibility into vehicle ownership costs
 
-When you're ready, run:
+---
 
-```bash
-npm run reset-project
+# Planned Features
+
+## Vehicle Management
+
+- Multiple vehicle support
+- Vehicle profiles
+- Odometer tracking
+- Manufacturer service schedules
+
+## Expense Tracking
+
+- Fuel logging
+- Service records
+- Repairs
+- Insurance
+- Licensing
+- Parking
+- Tolls
+- Car wash
+- Custom expense categories
+
+## Fuel Intelligence
+
+- Automatic fuel economy calculations
+- Cost-per-kilometre analysis
+- Fuel history
+- Mileage trends
+
+## Maintenance Intelligence
+
+- Predictive maintenance reminders
+- Service lifespan estimation
+- Vehicle health overview
+- Maintenance history
+
+## Analytics
+
+- Spending dashboards
+- Monthly and yearly trends
+- Category breakdowns
+- Cost forecasting
+
+## Cloud Features
+
+- Secure account authentication
+- Cloud synchronization
+- Local-first offline storage
+- Automatic backup
+
+---
+
+# Technology Stack
+
+| Layer            | Technology        |
+| ---------------- | ----------------- |
+| Mobile Framework | React Native      |
+| Runtime          | Expo              |
+| Language         | TypeScript        |
+| Navigation       | Expo Router       |
+| Local Database   | SQLite            |
+| Cloud Backend    | Supabase          |
+| State Management | Zustand           |
+| Secure Storage   | Expo Secure Store |
+
+---
+
+# Project Architecture
+
+The application follows a modular, scalable architecture designed for long-term maintainability.
+
+```
+app/
+src/
+docs/
+assets/
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Core architectural principles include:
 
-### Other setup steps
+- Offline-first design
+- Modular feature development
+- Type-safe codebase
+- Material Design 3
+- Component-driven architecture
+- Milestone-based development
+- Documentation-first engineering
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+---
 
-## Learn more
+# Current Status
 
-To learn more about developing your project with Expo, look at the following resources:
+🚧 Active Development
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+MileWise is currently being rebuilt as Version 2 using a milestone-driven development process with a strong focus on clean architecture, maintainability, and production-quality engineering practices.
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+# Development Roadmap
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- ✅ Project foundation
+- 🚧 Milestone 1 — Application architecture
+- ⏳ Authentication
+- ⏳ Vehicle onboarding
+- ⏳ Expense management
+- ⏳ Maintenance engine
+- ⏳ Analytics dashboard
+- ⏳ Cloud synchronization
+- ⏳ Production release
+
+---
+
+# Getting Started
+
+```bash
+git clone <repository-url>
+
+cd MileWise
+
+npm install
+
+npx expo start
+```
+
+---
+
+# Development Philosophy
+
+This project is developed using a documentation-first workflow.
+
+Every feature begins with:
+
+1. Requirements analysis
+2. Architecture planning
+3. AI implementation planning
+4. Code implementation
+5. Review and testing
+6. Documentation updates
+
+This approach ensures that MileWise remains scalable, maintainable, and production-ready throughout its development.
+
+---
+
+# License
+
+This project is licensed under the MIT License.
