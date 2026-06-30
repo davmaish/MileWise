@@ -1,9 +1,16 @@
-import { View, Text } from 'react-native';
+import ProgressBar from "@/components/ProgressBar";
+import Screen from "@/components/Screen";
 
 export default function HomeScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home Dashboard</Text>
-    </View>
+    <Screen>
+      <ProgressBar progress={100} />
+
+      <ProgressBar progress={75} style={{ marginTop: 20 }} />
+
+      <ProgressBar progress={45} color="#FFC107" style={{ marginTop: 20 }} />
+
+      <ProgressBar progress={20} color="#EF4444" style={{ marginTop: 20 }} />
+    </Screen>
   );
 }

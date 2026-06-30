@@ -9,6 +9,7 @@
       "@/database/*": ["src/database/*"],
       "@/services/*": ["src/services/*"],
       "@/state/*": ["src/state/*"],
+      "@/theme": ["src/theme/index.ts"],
       "@/theme/*": ["src/theme/*"],
       "@/assets/*": ["assets/*"]
     }

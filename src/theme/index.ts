@@ -1,5 +1,11 @@
+export { borders } from "./borders";
 export { colors } from "./colors";
+export { elevation } from "./elevation";
+export { icons } from "./icons";
+export { motion } from "./motion";
+export { navigation } from "./navigation";
+export { radius } from "./radius";
+export { sizes } from "./sizes";
 export { spacing } from "./spacing";
 export { typography } from "./typography";
-
-// Re-export all theme modules
+export { zIndex } from "./zIndex";
