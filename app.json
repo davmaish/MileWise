@@ -1,46 +1,74 @@
 {
   "expo": {
     "name": "MileWise",
-    "slug": "MileWise",
+    "slug": "milewise",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "milewise",
     "userInterfaceStyle": "automatic",
-    "ios": {
-      "icon": "./assets/expo.icon"
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1D267D"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#1D267D"
       },
-      "predictiveBackGestureEnabled": false
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.davmaish.milewise"
     },
-    "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.davmaish.milewise",
+      "infoPlist": {
+        "NSCameraUsageDescription": "MileWise uses the camera to capture service receipts and vehicle photos.",
+        "NSLocationWhenInUseUsageDescription": "MileWise uses your location to record where your vehicle was serviced.",
+        "NSPhotoLibraryUsageDescription": "MileWise accesses your gallery to attach receipt photos to service records."
+      }
     },
     "plugins": [
       "expo-router",
+      "expo-sqlite",
+      "expo-secure-store",
       [
-        "expo-splash-screen",
+        "expo-camera",
         {
-          "backgroundColor": "#208AEF",
-          "android": {
-            "image": "./assets/images/splash-icon.png",
-            "imageWidth": 76
-          }
+          "cameraPermission": "MileWise needs camera access to capture service receipts."
         }
       ],
-      "expo-sqlite",
-      "expo-secure-store"
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "MileWise uses your location to record where your vehicle was serviced."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#1D267D"
+        }
+      ]
     ],
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b05538de-4c87-47d4-84a5-679006b6b4a7"
+      }
     }
   }
 }
