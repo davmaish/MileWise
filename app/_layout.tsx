@@ -28,16 +28,25 @@ export default function RootLayout() {
 
   useEffect(() => {
     async function initialize() {
-      // Step 1: Initialize SQLite database
-      initDatabase();
+      try {
+        // Step 1: Initialize SQLite database first
+        initDatabase();
 
-      // Step 2: Request notification permission
-      await requestNotificationPermission();
+        // Step 2: Small delay to ensure DB is ready
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
-      // Step 3: Small delay to show splash
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+        // Step 3: Request notification permission
+        await requestNotificationPermission();
 
-      setDbReady(true);
+        // Step 4: Show splash screen for 2 seconds
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
+        setDbReady(true);
+      } catch (e) {
+        console.error("Initialization error:", e);
+        // Even if something fails, still let the app load
+        setDbReady(true);
+      }
     }
     initialize();
   }, []);

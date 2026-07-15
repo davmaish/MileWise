@@ -6,8 +6,21 @@ const db = SQLite.openDatabaseSync("milewise.db");
 
 // ── Initialize Tables ─────────────────────────────────────────────────────────
 export function initDatabase() {
+  db.execSync("PRAGMA foreign_keys = ON;");
+
   db.execSync(`
--- Table 2: Maintenance Records (FK → vehicle_profile) — Week 9 Upgrade
+    CREATE TABLE IF NOT EXISTS vehicle_profile (
+      id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+      vehicleName           TEXT NOT NULL,
+      manufacturer          TEXT NOT NULL,
+      model                 TEXT NOT NULL,
+      year                  TEXT NOT NULL,
+      registrationNumber    TEXT NOT NULL UNIQUE,
+      currentMileage        INTEGER NOT NULL,
+      created_at            TEXT NOT NULL DEFAULT (datetime('now')),
+      sync_status           INTEGER DEFAULT 0
+    );
+
     CREATE TABLE IF NOT EXISTS maintenance_records (
       id                  INTEGER PRIMARY KEY AUTOINCREMENT,
       vehicle_id          INTEGER NOT NULL,
@@ -26,15 +39,36 @@ export function initDatabase() {
         ON DELETE CASCADE
     );
 
-    CREATE TABLE IF NOT EXISTS vehicle_profile (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      vehicleName TEXT NOT NULL,
-      manufacturer TEXT NOT NULL,
-      model TEXT NOT NULL,
-      year TEXT NOT NULL,
-      registrationNumber TEXT NOT NULL,
-      currentMileage INTEGER NOT NULL
+    CREATE TABLE IF NOT EXISTS fuel_logs (
+      id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+      vehicle_id          INTEGER NOT NULL,
+      liters              REAL NOT NULL,
+      cost_per_liter      REAL NOT NULL,
+      total_cost          REAL NOT NULL,
+      mileage_at_fillup   INTEGER NOT NULL,
+      date                TEXT NOT NULL,
+      station_name        TEXT,
+      sync_status         INTEGER DEFAULT 0,
+      FOREIGN KEY (vehicle_id)
+        REFERENCES vehicle_profile(id)
+        ON DELETE CASCADE
     );
+
+    -- Performance: Index frequently queried columns
+    CREATE INDEX IF NOT EXISTS idx_maintenance_vehicle
+      ON maintenance_records(vehicle_id);
+
+    CREATE INDEX IF NOT EXISTS idx_maintenance_date
+      ON maintenance_records(date);
+
+    CREATE INDEX IF NOT EXISTS idx_maintenance_service
+      ON maintenance_records(serviceType);
+
+    CREATE INDEX IF NOT EXISTS idx_fuel_vehicle
+      ON fuel_logs(vehicle_id);
+
+    CREATE INDEX IF NOT EXISTS idx_fuel_date
+      ON fuel_logs(date);
   `);
 }
 
@@ -177,6 +211,18 @@ export function getTotalSpent(): number {
     "SELECT SUM(cost) as total FROM maintenance_records;",
   );
   return result?.total ?? 0;
+}
+
+export function getAllFuelLogs() {
+  return db.getAllSync<{
+    id: number;
+    liters: number;
+    cost_per_liter: number;
+    total_cost: number;
+    mileage_at_fillup: number;
+    date: string;
+    station_name: string;
+  }>("SELECT * FROM fuel_logs ORDER BY id DESC;");
 }
 
 export { db };

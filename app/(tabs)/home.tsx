@@ -1,6 +1,6 @@
 // ─── app/(tabs)/home.tsx — Dashboard with Pull-to-Refresh ────────────────────
 import { useFocusEffect, useRouter } from "expo-router";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   RefreshControl,
   SafeAreaView,
@@ -61,15 +61,17 @@ export default function HomeScreen() {
   }
 
   // Build reminder cards
-  const reminderData = reminders
-    .map((r) => {
-      const nextAtKm = r.lastServiceMileage + r.intervalKm;
-      const currentMileage = userVehicle?.currentMileage ?? 0;
-      const remainingKm = Math.max(0, nextAtKm - currentMileage);
-      const status = getReminderStatus(remainingKm);
-      return { ...r, nextAtKm, remainingKm, status };
-    })
-    .sort((a, b) => a.remainingKm - b.remainingKm);
+  const reminderData = useMemo(() => {
+    return reminders
+      .map((r) => {
+        const nextAtKm = r.lastServiceMileage + r.intervalKm;
+        const currentMileage = userVehicle?.currentMileage ?? 0;
+        const remainingKm = Math.max(0, nextAtKm - currentMileage);
+        const status = getReminderStatus(remainingKm);
+        return { ...r, nextAtKm, remainingKm, status };
+      })
+      .sort((a, b) => a.remainingKm - b.remainingKm);
+  }, [reminders, userVehicle?.currentMileage]);
 
   const vehicleLabel = userVehicle
     ? `${userVehicle.vehicleName} | ${userVehicle.currentMileage.toLocaleString()} km`

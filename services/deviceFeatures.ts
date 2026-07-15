@@ -41,9 +41,8 @@ export async function capturePhoto(): Promise<PhotoResult | null> {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0.8,
+      quality: 0.5, // Reduced from 0.8 to 0.5 for better memory performance
     });
-
     if (!result.canceled && result.assets.length > 0) {
       const asset = result.assets[0];
       return {

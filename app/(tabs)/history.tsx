@@ -300,43 +300,54 @@ export default function HistoryScreen() {
       )}
 
       {/* List */}
-      {displayed.length === 0 ? (
-        <View style={styles.empty}>
-          <Text style={styles.emptyIcon}>{isSearching ? "🔍" : "🔧"}</Text>
-          <Text style={styles.emptyText}>
-            {isSearching
-              ? "No matching records found."
-              : "No service records yet."}
-          </Text>
-          <Text style={styles.emptyHint}>
-            {isSearching
-              ? "Try a different search term."
-              : "Tap + to log your first service."}
-          </Text>
-        </View>
-      ) : (
-        <FlatList
-          data={displayed}
-          keyExtractor={(item) => String(item.id)}
-          contentContainerStyle={styles.list}
-          renderItem={({ item }) => (
-            <RecordCard
-              record={item}
-              onDelete={deleteMaintenanceRecord}
-              onEdit={handleEdit}
-            />
-          )}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
+      <View style={{ flex: 1 }}>
+        {displayed.length === 0 ? (
+          <View style={styles.empty}>
+            <Text style={styles.emptyIcon}>{isSearching ? "🔍" : "🔧"}</Text>
+            <Text style={styles.emptyText}>
+              {isSearching
+                ? "No matching records found."
+                : "No service records yet."}
+            </Text>
+            <Text style={styles.emptyHint}>
+              {isSearching
+                ? "Try a different search term."
+                : "Tap + to log your first service."}
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={displayed}
+            keyExtractor={(item) => String(item.id)}
+            contentContainerStyle={styles.list}
+            renderItem={({ item }) => (
+              <RecordCard
+                record={item}
+                onDelete={deleteMaintenanceRecord}
+                onEdit={handleEdit}
+              />
+            )}
+            showsVerticalScrollIndicator={false}
+            removeClippedSubviews={true}
+            maxToRenderPerBatch={10}
+            windowSize={5}
+            initialNumToRender={8}
+            getItemLayout={(data, index) => ({
+              length: 110,
+              offset: 110 * index,
+              index,
+            })}
+          />
+        )}
 
-      {/* Edit Modal */}
-      <EditModal
-        visible={editVisible}
-        record={editRecord}
-        onClose={() => setEditVisible(false)}
-        onSave={handleSaveEdit}
-      />
+        {/* Edit Modal */}
+        <EditModal
+          visible={editVisible}
+          record={editRecord}
+          onClose={() => setEditVisible(false)}
+          onSave={handleSaveEdit}
+        />
+      </View>
     </SafeAreaView>
   );
 }
